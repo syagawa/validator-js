@@ -2,8 +2,32 @@
 
 (function(global){
 
+
+  var types = {
+    isNoEmpty: {
+      validate: function(value){
+        return value !== "";
+      },
+      instruction: ""
+    },
+
+    isNumber: {
+      validate: function(value){
+        return !isNaN(value);
+      },
+      instruction: ""
+    },
+    isAlphabetNum: {
+      validate: function(value){
+        return !/[^a-z0-9]/i.test(value);
+      },
+      instruction: ""
+    }
+  };
+
+
   var Validator = function(){
-    this.types = {};
+    this.types = types;
 
     this.messages = [];
 
@@ -18,19 +42,21 @@
       for(var key in data){
         type = this.config[key];
         checker = this.types[type];
+        console.info(type);
+        console.info(checker);
         if(!type){
           continue;
         }
         if(!checker){
           throw {
             name: "ValidationError",
-            message: "No handler to validate type" + type
+            message: "No handler, " + type
           };
         }
 
         result = checker.validate(data[key]);
         if(!result){
-          msg = "Invalid value for *" + key + "*, " + checker.instruction;
+          msg = key + " is Invalid value. " + checker.instruction;
           this.messages.push(msg);
         }
       }
@@ -41,27 +67,6 @@
       return this.messages.length !== 0;
     };
 
-  };
-
-  Validator.prototype.isNoEmpty = {
-    validate: function(value){
-      return value !== "";
-    },
-    instruction: ""
-  };
-
-  Validator.prototype.isNumber = {
-    validate: function(value){
-      return !isNaN(value);
-    },
-    instruction: ""
-  };
-
-  Validator.prototype.isAlphabetNum = {
-    validate: function(value){
-      return !/[^a-z0-9]/i.test(value);
-    },
-    instruction: ""
   };
 
   var validator = new Validator();
