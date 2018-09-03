@@ -3,6 +3,43 @@
 (function(global){
 
   var Validator = function(){
+    this.types = {};
+
+    this.messages = [];
+
+    this.config = {};
+
+    this.validate = function(data){
+      var msg,
+          type,
+          checker,
+          result;
+      this.messages = [];
+      for(var key in data){
+        type = this.config[key];
+        checker = this.types[type];
+        if(!type){
+          continue;
+        }
+        if(!checker){
+          throw {
+            name: "ValidationError",
+            message: "No handler to validate type" + type
+          };
+        }
+
+        result = checker.validate(data[key]);
+        if(!result){
+          msg = "Invalid value for *" + key + "*, " + checker.instruction;
+          this.messages.push(msg);
+        }
+      }
+      return this.hasErrors();
+    };
+
+    this.hasErrors = function(){
+      return this.messages.length !== 0;
+    };
 
   };
 
