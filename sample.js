@@ -2,32 +2,28 @@
 
 (function(global){
 
-
-  var types = {
-    isNoEmpty: {
-      validate: function(value){
-        return value !== "";
-      },
-      instruction: ""
-    },
-
-    isNumber: {
-      validate: function(value){
-        return !isNaN(value);
-      },
-      instruction: ""
-    },
-    isAlphabetNum: {
-      validate: function(value){
-        return !/[^a-z0-9]/i.test(value);
-      },
-      instruction: ""
-    }
-  };
-
-
   var Validator = function(){
-    this.types = types;
+    this.types = {
+      isNoEmpty: {
+        validate: function(value){
+          return value !== "";
+        },
+        instruction: ""
+      },
+
+      isNumber: {
+        validate: function(value){
+          return !isNaN(value);
+        },
+        instruction: ""
+      },
+      isAlphabetNum: {
+        validate: function(value){
+          return !/[^a-z0-9]/i.test(value);
+        },
+        instruction: ""
+      }
+    };
 
     this.messages = [];
 
@@ -69,24 +65,42 @@
 
   };
 
-  var validator = new Validator();
+  var config = {
+    first_name: "isNoEmpty",
+    age: "isNumber",
+    username: "isAlphabetNum"
+  };
 
-  var data = {
+  var validator1 = new Validator();
+
+  var right_data = {
     first_name: "Tarou",
     last_name: "Tanaka",
     age: 24,
     username: "tt"
   };
 
-  validator.config = {
-    first_name: "isNoEmpty",
-    age: "isNumber",
-    username: "isAlphabetNum"
+  validator1.config = config;
+
+  validator1.validate(right_data);
+  if(validator1.hasErrors()){
+    console.log(validator1.messages.join("\n"));
+  }
+
+  var validator2 = new Validator();
+
+  var wrong_data = {
+    first_name: "",
+    last_name: "",
+    age: "aaaaa",
+    username: "たなか"
   };
 
-  validator.validate(data);
-  if(validator.hasErrors()){
-    console.log(validator.messages.join("\n"));
+  validator2.config = config;
+
+  validator2.validate(wrong_data);
+  if(validator2.hasErrors()){
+    console.log(validator2.messages.join("\n"));
   }
 
 
