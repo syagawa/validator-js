@@ -10,10 +10,27 @@
         },
         instruction: ""
       },
-
       isNumber: {
         validate: function(value){
           return !isNaN(value);
+        },
+        instruction: ""
+      },
+      isAlphabet: {
+        validate: function(value){
+          return !/[^a-z]/i.test(value);
+        },
+        instruction: ""
+      },
+      isAlphabetCap: {
+        validate: function(value){
+          return !/[^A-Z]/.test(value);
+        },
+        instruction: ""
+      },
+      isAlphabetLow: {
+        validate: function(value){
+          return !/[^a-z]/.test(value);
         },
         instruction: ""
       },
@@ -22,7 +39,26 @@
           return !/[^a-z0-9]/i.test(value);
         },
         instruction: ""
+      },
+      isHyphen: {
+        validate: function(value){
+          return !/[^\-]/.test(value);
+        },
+        instruction: ""
+      },
+      isUnderscore: {
+        validate: function(value){
+          return !/[^\_]/.test(value);
+        },
+        instruction: ""
+      },
+      isAlphabetLowNumHyphenUnderscore: {
+        validate: function(value){
+          return !/[^a-z|0-9|\-|\_]/.test(value);
+        },
+        instruction: ""
       }
+
     };
 
     this.messages = [];
