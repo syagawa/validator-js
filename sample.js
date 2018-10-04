@@ -141,8 +141,14 @@
 
   var button = document.getElementById("run");
   button.addEventListener("click", function(e){
-    var config = {
+
+    var config1 = {
       firstname: "isNoEmpty",
+      age: "isNoEmpty",
+      username: "isNoEmpty"
+    };
+
+    var config2 = {
       age: "isNumber",
       username: "isAlphabetNum"
     };
@@ -153,14 +159,24 @@
     };
 
     var validator = new Validator();
-    validator.config = config;
-    validator.validate(input_data);
 
+    validator.config = config1;
+    validator.validate(input_data);
+    if(validator.hasErrors()){
+      alert(validator.messages.join("\n"));
+      return;
+    }else{
+      alert("ok");
+    }
+
+    validator.config = config2;
+    validator.validate(input_data);
     if(validator.hasErrors()){
       alert(validator.messages.join("\n"));
     }else{
       alert("ok");
     }
+
 
   });
 
