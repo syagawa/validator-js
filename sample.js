@@ -74,8 +74,8 @@
       for(var key in data){
         type = this.config[key];
         checker = this.types[type];
-        console.info(type);
-        console.info(checker);
+        // console.info(type);
+        // console.info(checker);
         if(!type){
           continue;
         }
@@ -138,6 +138,31 @@
   if(validator2.hasErrors()){
     console.log(validator2.messages.join("\n"));
   }
+
+  var button = document.getElementById("run");
+  button.addEventListener("click", function(e){
+    var config = {
+      firstname: "isNoEmpty",
+      age: "isNumber",
+      username: "isAlphabetNum"
+    };
+    var input_data = {
+      firstname: document.getElementById("firstName").value,
+      age: document.getElementById("age").value,
+      username: document.getElementById("userName").value
+    };
+
+    var validator = new Validator();
+    validator.config = config;
+    validator.validate(input_data);
+
+    if(validator.hasErrors()){
+      alert(validator.messages.join("\n"));
+    }else{
+      alert("ok");
+    }
+
+  });
 
 
 })(window);
